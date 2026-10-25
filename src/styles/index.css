@@ -157,12 +157,17 @@ button { border: none; font: inherit; cursor: pointer; background: none; }
   position: fixed; top: 0; left: 0; width: 100%; padding: 0.9rem 2.5rem;
   display: flex; justify-content: space-between; align-items: center;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.52);
-  backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-  transition: background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease,
+    backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease;
+}
+.nav.is-scrolled {
+  background: rgba(18, 23, 43, 0.42);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border-bottom-color: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 .nav-logo {
   font-family: var(--font-display); font-size: 1.55rem; font-weight: 800;
@@ -1233,4 +1238,71 @@ body, .hero-panel, .works-panel, .techstacks-panel, .gallery-panel,
   mix-blend-mode: screen;
   filter: saturate(1.08) contrast(1.05);
 }
-.panel, .site-footer, .nav, .preloader { position: relative; z-index: 1; }
+.panel, .site-footer, .preloader { position: relative; z-index: 1; }
+
+/* ========================================
+   Hero — scroll-driven image sequence
+   ======================================== */
+.hero-seq {
+  --hero-bg: #12172B; /* matches the frame edges */
+  position: relative; z-index: 1;
+  height: 400vh; /* 300vh of scroll distance drives the 21 frames */
+  background: var(--hero-bg);
+}
+/* No overflow:hidden on .hero-seq: it would break position: sticky. */
+.hero-seq__sticky {
+  position: sticky; top: 0;
+  height: 100vh; height: 100svh;
+  overflow: hidden;
+  background: var(--hero-bg);
+}
+.hero-seq__canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; max-width: none;
+  background: var(--hero-bg);
+}
+/* Feathers the frame edges into the page colour, and fades into the next section. */
+.hero-seq__vignette {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to bottom, var(--hero-bg) 0%, rgba(18, 23, 43, 0) 16%, rgba(18, 23, 43, 0) 78%, var(--hero-bg) 100%),
+    radial-gradient(ellipse 85% 75% at 50% 50%, rgba(18, 23, 43, 0) 55%, rgba(18, 23, 43, 0.85) 100%);
+}
+
+/* Opacity/transform of each beat is driven by Hero.jsx */
+.hero-seq__beat {
+  position: absolute; z-index: 2; opacity: 0;
+  max-width: min(38rem, 86vw);
+  pointer-events: none; will-change: opacity, transform;
+  text-shadow: 0 2px 30px rgba(18, 23, 43, 0.75);
+}
+.hero-seq__beat--intro { inset: 0; max-width: none; padding: 6rem 3rem 8rem; }
+.hero-seq__name { display: flex; flex-direction: column; line-height: 0.85; font-weight: inherit; }
+.hero-seq__intro-desc {
+  position: absolute; bottom: 7rem; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 600px; padding: 0 2rem; text-align: center;
+}
+.hero-seq__beat--left  { left: clamp(1.25rem, 6vw, 5rem); top: 26vh; }
+.hero-seq__beat--right { right: clamp(1.25rem, 6vw, 5rem); bottom: 18vh; text-align: right; }
+.hero-seq__beat--end   { left: 50%; bottom: 14vh; translate: -50% 0; text-align: center; }
+.hero-seq__eyebrow {
+  font-family: var(--font-quirky); font-size: 1rem; letter-spacing: 0.1em;
+  color: var(--accent); margin-bottom: 0.75rem;
+}
+.hero-seq__title {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.2rem, 6vw, 4.75rem); line-height: 0.98; letter-spacing: -0.035em;
+}
+.hero-seq__hint { position: absolute; z-index: 2; left: 50%; bottom: 1.5rem; translate: -50% 0; }
+.hero-seq__loader {
+  position: absolute; z-index: 3; top: 0; left: 0; right: 0; height: 2px;
+  transition: opacity 0.6s ease;
+}
+.hero-seq__loader span { display: block; height: 100%; width: 0%; background: var(--accent); transition: width 0.2s ease; }
+.hero-seq__loader.is-done { opacity: 0; }
+
+@media (max-width: 768px) {
+  .hero-seq__beat--intro { padding: 5rem 1.25rem 6rem; }
+  .hero-seq__name { line-height: 0.9; }
+  .hero-seq__intro-desc { bottom: 4.5rem; padding: 0 1.25rem; }
+  .hero-seq__hint { display: none; }
+}

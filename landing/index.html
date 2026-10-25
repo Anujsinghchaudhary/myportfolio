@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anuj Singh Chaudhary | Creative Developer</title>
+  <meta name="description" content="Anuj Singh Chaudhary builds immersive, scroll-driven web experiences." />
+  <meta name="theme-color" content="#12172B" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="frames/ezgif-frame-001.jpg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="nav" id="nav" aria-label="Primary">
+    <a href="#top" class="nav__logo">AS<span class="accent">.</span></a>
+    <div class="nav__links">
+      <a href="#work">work</a>
+      <a href="#about">about</a>
+      <a href="#contact" class="nav__cta">let's talk</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <!-- Scroll-driven image sequence -->
+    <section class="sequence" id="sequence" aria-label="Intro">
+      <div class="sequence__sticky">
+        <canvas class="sequence__canvas" id="sequence-canvas" aria-hidden="true"></canvas>
+        <div class="sequence__vignette" aria-hidden="true"></div>
+
+        <div class="beat beat--intro" data-start="0" data-end="0.24">
+          <p class="eyebrow">creative developer</p>
+          <h1 class="beat__title">Anuj Singh<br /><span class="accent">Chaudhary</span></h1>
+          <p class="beat__text">I build crazy web experiences.</p>
+        </div>
+
+        <div class="beat beat--left" data-start="0.28" data-end="0.56">
+          <p class="eyebrow">01 &mdash; piece by piece</p>
+          <h2 class="beat__title">It all comes<br />together.</h2>
+        </div>
+
+        <div class="beat beat--right" data-start="0.58" data-end="0.84">
+          <p class="eyebrow">02 &mdash; then the work starts</p>
+          <h2 class="beat__title">Ideas in,<br />code out.</h2>
+        </div>
+
+        <div class="beat beat--end" data-start="0.88" data-end="1">
+          <p class="eyebrow">03 &mdash; up close</p>
+          <h2 class="beat__title">This is where<br /><span class="accent">I work.</span></h2>
+        </div>
+
+        <div class="scroll-hint" data-start="0" data-end="0.08" aria-hidden="true">
+          <span>scroll</span>
+          <i></i>
+        </div>
+
+        <div class="loader" id="loader" aria-hidden="true"><span id="loader-fill"></span></div>
+      </div>
+    </section>
+
+    <section class="section" id="work">
+      <p class="eyebrow">what I do</p>
+      <h2 class="section__title">Interfaces that feel alive.</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>Scroll storytelling</h3>
+          <p>Image sequences, pinned scenes and motion that follows the reader's pace.</p>
+        </article>
+        <article class="card">
+          <h3>Creative front-end</h3>
+          <p>React, GSAP and canvas work tuned to hold 60&nbsp;fps on real devices.</p>
+        </article>
+        <article class="card">
+          <h3>Product polish</h3>
+          <p>Micro-interactions, sound and detail that make a launch page memorable.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <p class="eyebrow">about</p>
+      <h2 class="section__title">Hi &lt;3, I'm Anuj.</h2>
+      <p class="section__text">I'm a developer who treats the browser as a stage. I like pairing clean engineering with motion design so a page reads like a short film.</p>
+    </section>
+
+    <section class="section section--cta" id="contact">
+      <h2 class="section__title">Got a project in mind?</h2>
+      <a class="button" href="mailto:hello@anujsingh.dev">hello@anujsingh.dev</a>
+    </section>
+  </main>
+
+  <footer class="footer">&copy; <span id="year"></span> Anuj Singh Chaudhary</footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

@@ -35,7 +35,7 @@ export default function App() {
             <MusicToggle loaded={loaded} />
             <Preloader onComplete={() => setLoaded(true)} />
             <Navigation />
-            <Hero theme={theme} setTheme={setTheme} loaded={loaded} />
+            <Hero loaded={loaded} />
             <Works />
             <Quote />
             <TechStacks />

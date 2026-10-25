@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 
@@ -6,6 +6,15 @@ gsap.registerPlugin(ScrollToPlugin)
 
 export default function Navigation() {
     const [menuOpen, setMenuOpen] = useState(false)
+    const [scrolled, setScrolled] = useState(false)
+
+    // Transparent at the very top, lightly blurred once the page scrolls.
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 24)
+        onScroll()
+        window.addEventListener('scroll', onScroll, { passive: true })
+        return () => window.removeEventListener('scroll', onScroll)
+    }, [])
 
     const toggleMenu = () => {
         setMenuOpen(prev => !prev)
@@ -36,7 +45,7 @@ export default function Navigation() {
 
     return (
         <>
-            <nav className="nav" id="nav">
+            <nav className={`nav ${scrolled ? 'is-scrolled' : ''}`} id="nav">
                 <a href="#hero" className="nav-logo" onClick={e => handleNavClick(e, 'hero')}>
                     AS<span className="accent-dot">.</span>
                 </a>

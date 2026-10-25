@@ -17,12 +17,12 @@ export function useScrollAnimations(loaded) {
                 { opacity: 0, y: '100%' },
                 { opacity: 1, y: 0, duration: 1.2, stagger: 0.18, ease: 'power4.out' }
             )
-            .fromTo('.hero-center-desc',
+            .fromTo('.hero-seq__intro-desc',
                 { opacity: 0, y: 20 },
                 { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
                 '-=0.6'
             )
-            .fromTo('.hero-bottom-bar',
+            .fromTo('.hero-seq__hint .scroll-pill',
                 { opacity: 0, y: 30 },
                 { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
                 '-=0.4'
