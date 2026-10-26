@@ -8,7 +8,7 @@
  *
  * Usage:
  *   node scripts/profile-preloader.mjs [--url http://localhost:4173/] [--runs 5]
- *        [--size 1920x1080] [--throttle none|fast4g|slow4g] [--out report.json]
+ *        [--size 1920x1080] [--throttle none|fast4g|slow4g] [--cpurate 4] [--out report.json]
  *   node scripts/profile-preloader.mjs --shots <dir> [--url http://localhost:3000/]
  *        Captures the effect at 25/50/75/100% progress at 16:9 and 21:9.
  *        Needs the Vite dev server (the ?preloaderProgress= hook is dev-only).
@@ -108,6 +108,8 @@ async function openPage(cdp, w, h) {
     const { sessionId } = await cdp.send('Target.attachToTarget', { targetId, flatten: true })
     const s = (m, p) => cdp.send(m, p, sessionId)
     await s('Page.enable')
+    await s('Performance.enable')
+    if (args.cpurate) await s('Emulation.setCPUThrottlingRate', { rate: Number(args.cpurate) })
     await s('Network.enable')
     await s('Network.setCacheDisabled', { cacheDisabled: true })
     if (THROTTLE) await s('Network.emulateNetworkConditions', { offline: false, ...THROTTLE })
@@ -129,11 +131,19 @@ async function profile() {
             const page = await openPage(cdp, W, H)
             await page.s('Page.addScriptToEvaluateOnNewDocument', { source: PROBE })
             await page.s('Page.navigate', { url: URL_ })
+            await sleep(400) // let first paint + font swap settle before counting layout work
+            const metric = async () => {
+                const { metrics } = await page.s('Performance.getMetrics')
+                const get = (n) => metrics.find((m) => m.name === n)?.value ?? 0
+                return { layouts: get('LayoutCount'), recalcs: get('RecalcStyleCount') }
+            }
+            const m0 = await metric()
             const t0 = Date.now()
             while (!(await page.evaluate('!!(window.__pl && window.__pl.done)').catch(() => false))) {
                 if (Date.now() - t0 > 60000) throw new Error('preloader never finished')
                 await sleep(100)
             }
+            const m1 = await metric()
             const m = await page.evaluate(`(() => {
                 const d = window.__pl.deltas.slice(1);
                 const frames = performance.getEntriesByType('resource').filter(e => e.name.includes('/frames/'));
@@ -153,6 +163,9 @@ async function profile() {
             const d = m.deltas
             runs.push({
                 doneMs: Math.round(m.doneMs),
+                fps: +(d.length / (m.doneMs / 1000)).toFixed(1),
+                layouts: m1.layouts - m0.layouts,
+                recalcs: m1.recalcs - m0.recalcs,
                 framesMs: m.framesMs && Math.round(m.framesMs),
                 frameFiles: m.frameFiles,
                 p50: +pct(d, 50).toFixed(1),
@@ -171,8 +184,12 @@ async function profile() {
     }
     const med = (k) => pct(runs.map((x) => x[k]), 50)
     const summary = {
-        url: URL_, size: `${W}x${H}`, throttle: args.throttle || 'none', runs: runs.length,
-        median: { doneMs: med('doneMs'), framesMs: med('framesMs'), p95FrameMs: med('p95'), maxFrameMs: med('max'), hitches: med('hitches') },
+        url: URL_, size: `${W}x${H}`, throttle: args.throttle || 'none', cpuRate: Number(args.cpurate || 1), runs: runs.length,
+        median: {
+            doneMs: med('doneMs'), framesMs: med('framesMs'), fps: med('fps'),
+            p95FrameMs: med('p95'), maxFrameMs: med('max'), hitches: med('hitches'),
+            layouts: med('layouts'), recalcs: med('recalcs'),
+        },
         renderer: runs[0]?.renderer,
     }
     console.log('\nsummary:', JSON.stringify(summary, null, 2))
@@ -189,6 +206,7 @@ async function shots() {
                 const page = await openPage(cdp, w, h)
                 const u = new URL(URL_)
                 u.searchParams.set('preloaderProgress', String(p))
+                u.searchParams.set('bladeT', '0.5') // hold the blade mid-swipe for a deterministic frame
                 await page.s('Page.navigate', { url: u.href })
                 await sleep(3500)
                 const { data } = await page.s('Page.captureScreenshot', { format: 'png' })

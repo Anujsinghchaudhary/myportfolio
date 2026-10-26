@@ -107,19 +107,25 @@ button { border: none; font: inherit; cursor: pointer; background: none; }
     radial-gradient(circle at 48% 50%, rgba(255, 95, 45, 0.1) 0%, transparent 48%),
     linear-gradient(152deg, #050508 0%, #1a0a10 38%, #12080f 62%, #09090f 100%);
 }
-/* WebGL katana effect. It renders the whole screen (backdrop, embers, vignette,
-   title) so the glass cracks can displace it; the DOM title stays for screen readers. */
-#preloader-canvas {
-  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4;
-  opacity: 0; transition: opacity 0.35s ease;
+/* Blade swipe: a tapered light-stroke (SVG) sliding right -> left, plus an
+   additive spark layer. Both layers are transform/opacity-only during playback,
+   so the compositor handles them without layout work. */
+.blade-layer {
+  position: absolute; inset: 0; z-index: 6; pointer-events: none; overflow: hidden;
 }
-#preloader-canvas.is-live { opacity: 1; }
-.preloader:not(.preloader--gl) #preloader-canvas,
-.preloader--gl .preloader-vignette { display: none; }
-.preloader--gl .preloader-center {
-  position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip-path: inset(50%); white-space: nowrap;
+.blade {
+  position: absolute; top: 0; left: 0;
+  width: min(58vw, 880px); aspect-ratio: 640 / 110;
+  opacity: 0; will-change: transform, opacity;
+  filter: drop-shadow(0 0 22px rgba(255, 138, 60, 0.45));
 }
+.blade svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.preloader-sparks {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 6; pointer-events: none;
+}
+.preloader--still .blade-layer,
+.preloader--still .preloader-sparks { display: none; }
 .preloader-vignette {
   position: absolute; inset: 0;
   background: radial-gradient(ellipse at center, transparent 38%, rgba(0, 0, 0, 0.72) 100%);
@@ -392,11 +398,18 @@ button { border: none; font: inherit; cursor: pointer; background: none; }
   display: flex; flex-direction: column; line-height: 0.85;
 }
 .hero-line {
-  font-family: var(--font-display); font-size: clamp(4rem, 18vw, 16rem);
-  font-weight: 900; letter-spacing: -0.04em; display: block; overflow: hidden;
+  font-family: var(--font-display); font-size: clamp(3.25rem, 9vw, 8.5rem);
+  font-weight: 900; letter-spacing: -0.03em; display: block; overflow: hidden;
   cursor: default; transition: text-shadow 0.4s ease; position: relative;
 }
 .hero-line:hover { text-shadow: 0 0 80px var(--accent-glow); }
+/* Second line of the hero name: rose gradient instead of a flat fill.
+   text-shadow: none — a shadow would show through the transparent glyphs. */
+.hero-line.accent-text {
+  background: linear-gradient(115deg, #ffe9f1 0%, var(--accent) 48%, var(--accent-dark) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; text-shadow: none;
+}
 
 /* Glitch effect on hero name */
 .hero-line::before, .hero-line::after {
@@ -417,10 +430,7 @@ button { border: none; font: inherit; cursor: pointer; background: none; }
   position: absolute; bottom: 6rem; left: 50%; transform: translateX(-50%);
   max-width: 600px; width: 100%; padding: 0 2rem;
 }
-.hero-jp {
-  font-size: clamp(0.85rem, 1.5vw, 1.1rem); color: var(--text-40);
-  margin-bottom: 0.5rem; letter-spacing: 0.05em;
-}
+
 .hero-desc {
   font-family: var(--font-quirky); font-size: clamp(0.9rem, 2vw, 1.3rem);
   color: var(--text-70); line-height: 1.6;
@@ -476,7 +486,7 @@ button { border: none; font: inherit; cursor: pointer; background: none; }
 @media (max-width: 768px) {
   .hero-content-immersive { padding: 5rem 1.25rem 6rem; }
   .hero-name-large { line-height: 0.9; }
-  .hero-line { font-size: clamp(3rem, 14vw, 6rem); }
+  .hero-line { font-size: clamp(2.75rem, 13vw, 5rem); }
   .hero-bottom-bar { padding: 1rem 1.25rem; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
   .hero-center-desc { bottom: 4.5rem; padding: 0 1.25rem; }
   .hero-corner-btn { padding: 8px 14px 6px; }
@@ -1278,8 +1288,11 @@ body, .hero-panel, .works-panel, .techstacks-panel, .gallery-panel,
   pointer-events: none; will-change: opacity, transform;
   text-shadow: 0 2px 30px rgba(18, 23, 43, 0.75);
 }
-.hero-seq__beat--intro { inset: 0; max-width: none; padding: 6rem 3rem 8rem; }
-.hero-seq__name { display: flex; flex-direction: column; line-height: 0.85; font-weight: inherit; }
+.hero-seq__beat--intro {
+  inset: 0; max-width: none; padding: 11vh 2rem 8rem;
+  display: flex; flex-direction: column; align-items: center;
+}
+.hero-seq__name { display: flex; flex-direction: column; line-height: 0.92; font-weight: inherit; text-align: center; }
 .hero-seq__intro-desc {
   position: absolute; bottom: 7rem; left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 600px; padding: 0 2rem; text-align: center;

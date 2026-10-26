@@ -157,7 +157,6 @@ export default function Hero({ loaded }) {
                         <span className="hero-line accent-text" data-text="sInGh">sInGh</span>
                     </h1>
                     <div className="hero-seq__intro-desc">
-                        <p className="hero-jp">クリエイティブな開発者です。</p>
                         <p className="hero-desc">Hi <span className="accent-text">&lt;3</span>, I'm Anuj. I build crazy web experiences.</p>
                     </div>
                 </div>
