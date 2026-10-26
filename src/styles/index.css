@@ -107,8 +107,18 @@ button { border: none; font: inherit; cursor: pointer; background: none; }
     radial-gradient(circle at 48% 50%, rgba(255, 95, 45, 0.1) 0%, transparent 48%),
     linear-gradient(152deg, #050508 0%, #1a0a10 38%, #12080f 62%, #09090f 100%);
 }
+/* WebGL katana effect. It renders the whole screen (backdrop, embers, vignette,
+   title) so the glass cracks can displace it; the DOM title stays for screen readers. */
 #preloader-canvas {
-  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; opacity: 0.9;
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4;
+  opacity: 0; transition: opacity 0.35s ease;
+}
+#preloader-canvas.is-live { opacity: 1; }
+.preloader:not(.preloader--gl) #preloader-canvas,
+.preloader--gl .preloader-vignette { display: none; }
+.preloader--gl .preloader-center {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
 }
 .preloader-vignette {
   position: absolute; inset: 0;
@@ -118,13 +128,6 @@ button { border: none; font: inherit; cursor: pointer; background: none; }
 .preloader-center {
   text-align: center; z-index: 7; position: relative;
   display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
-}
-.preloader-kanji {
-  font-family: 'Noto Serif JP', serif;
-  font-size: clamp(2.5rem, 6vw, 3.75rem);
-  font-weight: 600; color: rgba(220, 180, 90, 0.45);
-  letter-spacing: 0.2em; line-height: 1; margin: 0;
-  text-shadow: 0 0 40px rgba(180, 60, 50, 0.35);
 }
 .preloader-title {
   font-family: var(--font-display); font-size: clamp(3rem, 10vw, 7rem);
@@ -140,13 +143,13 @@ button { border: none; font: inherit; cursor: pointer; background: none; }
 .preloader-loading {
   position: absolute; bottom: 4rem; z-index: 7;
   display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
-  width: min(400px, 80%); opacity: 0; transition: opacity 0.5s ease;
+  width: min(400px, 80%); opacity: 0;
 }
 .loading-bar { width: 100%; height: 3px; background: var(--text-08); border-radius: 2px; overflow: hidden; }
 .loading-fill {
   height: 100%;
   background: linear-gradient(90deg, rgba(180, 50, 55, 0.95), rgba(220, 180, 90, 0.95), rgba(255, 210, 200, 0.85));
-  border-radius: 2px; width: 0%; transition: width 0.2s ease;
+  border-radius: 2px; width: 100%; transform: scaleX(0); transform-origin: left center;
   box-shadow: 0 0 14px rgba(220, 160, 100, 0.45);
 }
 .loading-text { font-family: var(--font-quirky); font-size: 0.9rem; color: var(--text-40); }

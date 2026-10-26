@@ -1,9 +1,11 @@
 import { useEffect, useRef } from 'react'
 
-export default function GlobalBackground() {
+export default function GlobalBackground({ paused = false }) {
     const canvasRef = useRef(null)
 
     useEffect(() => {
+        // Nothing to draw while an opaque overlay (the preloader) covers the page.
+        if (paused) return
         const canvas = canvasRef.current
         if (!canvas) return
         const ctx = canvas.getContext('2d')
@@ -154,7 +156,7 @@ export default function GlobalBackground() {
             window.removeEventListener('resize', resize)
             ro.disconnect()
         }
-    }, [])
+    }, [paused])
 
     return (
         <canvas

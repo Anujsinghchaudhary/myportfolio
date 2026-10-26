@@ -1,9 +1,8 @@
 import { useEffect, useRef } from 'react'
+import { FRAME_COUNT, loadHeroFrames } from '../lib/criticalAssets'
 
-const FRAME_COUNT = 21
 const BG = '#12172B' // must match .hero-seq background and the frame edges
 const EASE = 0.12 // fraction of the remaining distance covered per 60fps frame
-const framePath = (i) => `${import.meta.env.BASE_URL}frames/ezgif-frame-${String(i).padStart(3, '0')}.jpg`
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v))
 
 export default function Hero({ loaded }) {
@@ -118,13 +117,11 @@ export default function Hero({ loaded }) {
 
         const onScroll = () => { updateTarget(); kick() }
 
-        for (let i = 0; i < FRAME_COUNT; i++) {
-            const img = new Image()
-            img.decoding = 'async'
-            img.src = framePath(i + 1)
-            const done = (ok) => {
+        // Shared with the preloader: same requests, already decoded off the main thread.
+        loadHeroFrames().forEach((p, i) =>
+            p.then((img) => {
                 if (disposed) return
-                if (ok) frames[i] = img
+                if (img) frames[i] = img
                 loadedCount++
                 if (loader) {
                     loader.firstChild.style.width = `${(loadedCount / FRAME_COUNT) * 100}%`
@@ -132,9 +129,8 @@ export default function Hero({ loaded }) {
                 }
                 dirty = true
                 kick()
-            }
-            img.decode().then(() => done(true), () => done(img.complete && img.naturalWidth > 0))
-        }
+            }),
+        )
 
         window.addEventListener('scroll', onScroll, { passive: true })
         window.addEventListener('resize', resize)

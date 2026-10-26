@@ -30,7 +30,7 @@ export default function App() {
 
     return (
         <>
-            <GlobalBackground />
+            <GlobalBackground paused={!loaded} />
             <CustomCursor />
             <MusicToggle loaded={loaded} />
             <Preloader onComplete={() => setLoaded(true)} />
