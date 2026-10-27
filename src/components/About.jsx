@@ -4,7 +4,7 @@ export default function About() {
             <div className="section-wrapper">
                 <div className="section-header">
                     <span className="section-number">04</span>
-                    <h2 className="section-title">aBouT <span className="accent-text">mE</span></h2>
+                    <h2 className="section-title">About <span className="accent-text">me</span></h2>
                 </div>
                 <div className="about-grid">
                     <div className="about-image-area">
@@ -21,25 +21,25 @@ export default function About() {
                     </div>
                     <div className="about-text-area">
                         <p className="about-intro">
-                            hEy! i'm <span className="accent-text">aNuJ</span>, a <span className="accent-text">cReAtIvE dEvEloPeR</span> wHo tUrNs cRaZy iDeAs iNtO iNtErAcTiVe wEb eXpErIeNcEs.
+                            Hey! I'm <span className="accent-text">Anuj</span>, a <span className="accent-text">creative developer</span> who turns crazy ideas into interactive web experiences.
                         </p>
                         <p className="about-body">
-                            wHeN i'm nOt cOdInG aT 3 aM, yOu'lL fInD mE eXpLoRiNg nEw tEcH,
-                            bReAkInG tHiNgS (aNd fIxInG tHeM… eVeNtUaLLy 😅), aNd dRiNkInG
-                            wAy tOo mUcH cOfFeE ☕.
+                            When I'm not coding at 3 a.m., you'll find me exploring new tech,
+                            breaking things (and fixing them… eventually 😅), and drinking
+                            way too much coffee ☕.
                         </p>
                         <div className="about-stats">
                             <div className="about-stat">
                                 <span className="stat-number">2+</span>
-                                <span className="stat-label">yEaRs cOdInG</span>
+                                <span className="stat-label">Years coding</span>
                             </div>
                             <div className="about-stat">
                                 <span className="stat-number">20+</span>
-                                <span className="stat-label">pRoJeCts bUiLt</span>
+                                <span className="stat-label">Projects built</span>
                             </div>
                             <div className="about-stat">
                                 <span className="stat-number">∞</span>
-                                <span className="stat-label">cOfFeE cUpS</span>
+                                <span className="stat-label">Coffee cups</span>
                             </div>
                         </div>
                     </div>

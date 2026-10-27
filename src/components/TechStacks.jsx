@@ -1,8 +1,8 @@
 const techs = [
-    { icon: 'canvas', shape: 'cube', name: 'WebGL & Three.js', desc: 'mInD-bEnDiNg 3D eXpErieNces rIgHt iN yOuR bRoWsEr. sHaDeR pRoGrAmmiNg fOr tHaT eXtRa ✨' },
-    { icon: 'gsap', name: 'GSAP', desc: 'bUtTeR sMoOtH aNimaTioNs tHaT mAke eVeRyThiNg fEeL aLiVe. sCroLl-dRivEn mAgIc ✨' },
-    { icon: 'code', name: 'React & Next.js', desc: 'mOdErN fRaMeWoRks fOr bUiLdiNg sCaLaBLe, pErFoRmAnT wEb aPpS wItH sErVeR-siDe pOwEr 🚀' },
-    { icon: 'style', name: 'SCSS & Tailwind', desc: 'pIxeL-pErFeCt sTyLiNg wItH uTiLiTy-fIrSt aPpRoAcH. rEsPoNsIvE dEsIgN tHaT jUsT wOrKs 🎨' },
+    { icon: 'canvas', shape: 'cube', name: 'WebGL & Three.js', desc: 'Mind-bending 3D experiences right in your browser. Shader programming for that extra ✨' },
+    { icon: 'gsap', name: 'GSAP', desc: 'Butter-smooth animations that make everything feel alive. Scroll-driven magic ✨' },
+    { icon: 'code', name: 'React & Next.js', desc: 'Modern frameworks for building scalable, performant web apps with server-side power 🚀' },
+    { icon: 'style', name: 'SCSS & Tailwind', desc: 'Pixel-perfect styling with a utility-first approach. Responsive design that just works 🎨' },
 ]
 
 const marqueeItems = ['JavaScript', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Three.js', 'GSAP', 'Python', 'WebGL', 'MongoDB', 'PostgreSQL', 'Figma']
@@ -13,15 +13,14 @@ export default function TechStacks() {
             <div className="section-wrapper">
                 <div className="section-header">
                     <span className="section-number">03</span>
-                    <h2 className="section-title">tEcH <span className="accent-text">sTaCks</span></h2>
+                    <h2 className="section-title">Tech <span className="accent-text">stack</span></h2>
                 </div>
 
                 <div className="tech-intro">
                     <p className="tech-intro-text">
-                        wHy do I uSe <span className="accent-text">tHeSe tOoLs</span>?
-                        bEcAuSe tHeY lEt mE bUiLd mInD-bEnDiNg eXpErieNces
-                        tHaT pLaiN JS cAn't hAnDLe. hArdWaRe aCceLerAtiOn
-                        + hIgH pErFoRmaNce = 🔥
+                        Why do I use <span className="accent-text">these tools</span>? Because they let me build
+                        mind-bending experiences that plain JS can't handle. Hardware acceleration + high
+                        performance = 🔥
                     </p>
                 </div>
 

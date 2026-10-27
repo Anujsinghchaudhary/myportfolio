@@ -1,12 +1,13 @@
+// Phase 2 replaces this marquee with a Proof block of verified items only.
 const awards = [
-    'bEsT dEsIgN aWaRd',
-    'cReAtIvE cOdEr oF tHe yEaR',
-    'UI/UX iNnOvAtIoN aWaRd',
-    'fRoNtEnD nInJa cErTiFiEd',
-    'oPeN sOuRcE cOnTrIbUtOr',
-    'hAcKaThOn wInNeR 2025',
-    'dEsIgN eXcELLeNcE aWaRd',
-    'tOp wEb dEveLoPeR',
+    'Best design award',
+    'Creative coder of the year',
+    'UI/UX innovation award',
+    'Frontend ninja certified',
+    'Open source contributor',
+    'Hackathon winner 2025',
+    'Design excellence award',
+    'Top web developer',
 ]
 
 export default function Awards() {
@@ -40,8 +41,8 @@ export default function Awards() {
                 </div>
             </div>
             <div className="section-corner-text">
-                <span className="corner-left">aIgHt bRo...</span>
-                <span className="corner-right">tHaTs iT</span>
+                <span className="corner-left">Aight bro...</span>
+                <span className="corner-right">That's it</span>
             </div>
         </section>
     )

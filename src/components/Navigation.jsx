@@ -4,7 +4,17 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 
 gsap.registerPlugin(ScrollToPlugin)
 
-export default function Navigation() {
+const links = [
+    { id: 'hero', label: 'Home' },
+    { id: 'works', label: 'Work' },
+    { id: 'techstacks', label: 'Tech stack' },
+    { id: 'about', label: 'About' },
+    { id: 'contact', label: 'Contact' },
+]
+
+// `actions` renders in the header's right-hand group (the music toggle lives here, so it
+// never floats over page content).
+export default function Navigation({ actions = null }) {
     const [menuOpen, setMenuOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
 
@@ -16,55 +26,61 @@ export default function Navigation() {
         return () => window.removeEventListener('scroll', onScroll)
     }, [])
 
-    const toggleMenu = () => {
-        setMenuOpen(prev => !prev)
-        document.body.classList.toggle('menu-open')
-    }
-
-    const closeMenu = () => {
-        setMenuOpen(false)
-        document.body.classList.remove('menu-open')
-    }
+    useEffect(() => {
+        document.body.classList.toggle('menu-open', menuOpen)
+        if (!menuOpen) return undefined
+        const onKey = (e) => {
+            if (e.key === 'Escape') setMenuOpen(false)
+        }
+        window.addEventListener('keydown', onKey)
+        return () => window.removeEventListener('keydown', onKey)
+    }, [menuOpen])
 
     const handleNavClick = (e, id) => {
         e.preventDefault()
-        closeMenu()
+        setMenuOpen(false)
         const el = document.getElementById(id)
         if (el) {
             gsap.to(window, { duration: 1.2, scrollTo: { y: el, offsetY: 0 }, ease: 'power3.inOut' })
         }
     }
 
-    const links = [
-        { id: 'hero', label: 'home' },
-        { id: 'works', label: 'work' },
-        { id: 'techstacks', label: 'tech stack' },
-        { id: 'about', label: 'about' },
-        { id: 'contact', label: 'contact' },
-    ]
-
     return (
         <>
-            <nav className={`nav ${scrolled ? 'is-scrolled' : ''}`} id="nav">
-                <a href="#hero" className="nav-logo" onClick={e => handleNavClick(e, 'hero')}>
+            <nav className={`nav ${scrolled ? 'is-scrolled' : ''}`} id="nav" aria-label="Main">
+                <a href="#hero" className="nav-logo" aria-label="Anuj Singh, home" onClick={(e) => handleNavClick(e, 'hero')}>
                     AS<span className="accent-dot">.</span>
                 </a>
-                <div className="nav-links">
-                    {links.map(l => (
-                        <a key={l.id} href={`#${l.id}`} className="nav-link" data-section={l.id}
-                            onClick={e => handleNavClick(e, l.id)}>{l.label}</a>
-                    ))}
+                <div className="nav-right">
+                    <div className="nav-links">
+                        {links.map((l) => (
+                            <a key={l.id} href={`#${l.id}`} className="nav-link" data-section={l.id} onClick={(e) => handleNavClick(e, l.id)}>
+                                {l.label}
+                            </a>
+                        ))}
+                    </div>
+                    {actions}
+                    <button
+                        type="button"
+                        className={`nav-hamburger ${menuOpen ? 'open' : ''}`}
+                        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                        aria-expanded={menuOpen}
+                        aria-controls="mobile-menu"
+                        onClick={() => setMenuOpen((v) => !v)}
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 </div>
-                <button className={`nav-hamburger ${menuOpen ? 'open' : ''}`} aria-label="Menu" onClick={toggleMenu}>
-                    <span></span><span></span><span></span>
-                </button>
             </nav>
 
-            <div className={`mobile-overlay ${menuOpen ? 'open' : ''}`}>
+            <div id="mobile-menu" className={`mobile-overlay ${menuOpen ? 'open' : ''}`} inert={!menuOpen}>
                 <div className="mobile-overlay-links">
-                    {links.map(l => (
-                        <a key={l.id} href={`#${l.id}`} className="mobile-link"
-                            onClick={e => handleNavClick(e, l.id)}>{l.label}</a>
+                    {links.map((l) => (
+                        <a key={l.id} href={`#${l.id}`} className="mobile-link" onClick={(e) => handleNavClick(e, l.id)}>
+                            {l.label}
+                        </a>
                     ))}
                 </div>
             </div>

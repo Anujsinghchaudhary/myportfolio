@@ -152,9 +152,13 @@ export default function Hero({ loaded }) {
                 <div className="hero-seq__vignette" aria-hidden="true" />
 
                 <div className="hero-seq__beat hero-seq__beat--intro" data-start="0" data-end="0.24">
+                    <p className="hero-seq__kicker">
+                        <span className="section-number">01</span>
+                        <span>Creative developer</span>
+                    </p>
                     <h1 className="hero-seq__name">
-                        <span className="hero-line" data-text="aNuJ">aNuJ</span>
-                        <span className="hero-line accent-text" data-text="sInGh">sInGh</span>
+                        <span className="hero-line" data-text="Anuj">Anuj</span>
+                        <span className="hero-line accent-text" data-text="Singh">Singh</span>
                     </h1>
                     <div className="hero-seq__intro-desc">
                         <p className="hero-desc">Hi <span className="accent-text">&lt;3</span>, I'm Anuj. I build crazy web experiences.</p>
@@ -162,17 +166,17 @@ export default function Hero({ loaded }) {
                 </div>
 
                 <div className="hero-seq__beat hero-seq__beat--left" data-start="0.28" data-end="0.56">
-                    <p className="hero-seq__eyebrow">01 — pIeCe bY pIeCe</p>
+                    <p className="hero-seq__eyebrow">Piece by piece</p>
                     <h2 className="hero-seq__title">It all comes<br />together.</h2>
                 </div>
 
                 <div className="hero-seq__beat hero-seq__beat--right" data-start="0.58" data-end="0.84">
-                    <p className="hero-seq__eyebrow">02 — tHeN tHe wOrK sTaRtS</p>
+                    <p className="hero-seq__eyebrow">Then the work starts</p>
                     <h2 className="hero-seq__title">Ideas in,<br />code out.</h2>
                 </div>
 
                 <div className="hero-seq__beat hero-seq__beat--end" data-start="0.88" data-end="1">
-                    <p className="hero-seq__eyebrow">03 — uP cLoSe</p>
+                    <p className="hero-seq__eyebrow">Up close</p>
                     <h2 className="hero-seq__title">This is where<br /><span className="accent-text">I work.</span></h2>
                 </div>
 

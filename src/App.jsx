@@ -17,12 +17,10 @@ import Footer from './components/Footer'
 import { useScrollAnimations } from './hooks/useScrollAnimations'
 
 export default function App() {
-    console.log('App component rendered')
     const [loaded, setLoaded] = useState(false)
-    const [theme, setTheme] = useState('morning')
+    const [theme] = useState('morning')
 
     useEffect(() => {
-        console.log('App mounted, setting theme:', theme)
         document.documentElement.setAttribute('data-theme', theme)
     }, [theme])
 
@@ -30,21 +28,32 @@ export default function App() {
 
     return (
         <>
-            <GlobalBackground paused={!loaded} />
-            <CustomCursor />
-            <MusicToggle loaded={loaded} />
             <Preloader onComplete={() => setLoaded(true)} />
-            <Navigation />
-            <Hero loaded={loaded} />
-            <Works />
-            <Quote />
-            <TechStacks />
-            <About />
-            <Awards />
-            <Gallery />
-            <Socials />
-            <Contact />
-            <Footer />
+            {/* inert while the preloader is up: nothing behind it can take focus or clicks */}
+            <div className="site" inert={!loaded}>
+                <a href="#works" className="skip-link">Skip to work</a>
+                <GlobalBackground paused={!loaded} />
+                <CustomCursor />
+                <Navigation actions={<MusicToggle loaded={loaded} />} />
+                <main>
+                    {/* 01 */}
+                    <Hero loaded={loaded} />
+                    {/* 02 */}
+                    <Works />
+                    <Quote />
+                    {/* 03 */}
+                    <TechStacks />
+                    {/* 04 */}
+                    <About />
+                    <Awards />
+                    {/* 05 */}
+                    <Gallery />
+                    {/* 06 (contact, then socials as part of the same block) */}
+                    <Contact />
+                    <Socials />
+                </main>
+                <Footer />
+            </div>
         </>
     )
 }

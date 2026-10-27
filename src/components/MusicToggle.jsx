@@ -220,15 +220,17 @@ export default function MusicToggle({ loaded }) {
     }, [])
 
     return (
-        <button className="music-toggle" id="music-toggle" aria-label="Toggle Music"
+        <button type="button" className="music-toggle" id="music-toggle"
+            aria-label={playing ? 'Pause background music' : 'Play background music'}
+            aria-pressed={playing}
             data-cursor={'\u266A'} onClick={toggle}>
-            <div className={'music-bars' + (playing ? ' playing' : '')}>
+            <div className={'music-bars' + (playing ? ' playing' : '')} aria-hidden="true">
                 <span className="bar bar-1"></span>
                 <span className="bar bar-2"></span>
                 <span className="bar bar-3"></span>
                 <span className="bar bar-4"></span>
             </div>
-            <span className="music-label">{playing ? 'pAuSe' : 'pLaY'}</span>
+            <span className="music-label" aria-hidden="true">{playing ? 'Pause' : 'Play'}</span>
         </button>
     )
 }

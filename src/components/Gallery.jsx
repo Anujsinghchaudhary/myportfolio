@@ -1,20 +1,20 @@
 import { useState, useRef, useEffect } from 'react'
 
 const categories = {
-    'gOoFy pIcS': [
-        { label: 'cOzY vIbEs oNlY', sub: '+100 cOmFy pOiNts', bg: 'linear-gradient(145deg, #1a1a2e, #16213e)', image: '/gallery-1.png' },
-        { label: 'rOaD tRiP gAnG', sub: '+200 aDvEnTuRe pOiNts', bg: 'linear-gradient(145deg, #0f3460, #533483)', image: '/gallery-2.jpeg' },
-        { label: 'dEv mOdE: oN', sub: '+999 hArDcOrE pOiNts', bg: 'linear-gradient(145deg, #e94560, #0f3460)', image: '/gallery-3.jpg' },
+    'Goofy pics': [
+        { label: 'Cozy vibes only', sub: '+100 comfy points', bg: 'linear-gradient(145deg, #1a1a2e, #16213e)', image: '/gallery-1.png' },
+        { label: 'Road trip gang', sub: '+200 adventure points', bg: 'linear-gradient(145deg, #0f3460, #533483)', image: '/gallery-2.jpeg' },
+        { label: 'Dev mode: on', sub: '+999 hardcore points', bg: 'linear-gradient(145deg, #e94560, #0f3460)', image: '/gallery-3.jpg' },
     ],
-    'cOdInG vIbEs': [
-        { label: 'cOdiNg aT 3 aM', sub: '+200 dEdIcAtIoN pOiNts', bg: 'linear-gradient(145deg, #16213e, #e94560)' },
-        { label: 'tHe gOOfY dEv', sub: '+999 gOoFy pOiNts', bg: 'linear-gradient(145deg, #533483, #e94560)' },
-        { label: 'bUg fIxInG aT 4 aM', sub: '+150 gRiNd pOiNts', bg: 'linear-gradient(145deg, #0f3460, #1a1a2e)' },
+    'Coding vibes': [
+        { label: 'Coding at 3 a.m.', sub: '+200 dedication points', bg: 'linear-gradient(145deg, #16213e, #e94560)' },
+        { label: 'The goofy dev', sub: '+999 goofy points', bg: 'linear-gradient(145deg, #533483, #e94560)' },
+        { label: 'Bug fixing at 4 a.m.', sub: '+150 grind points', bg: 'linear-gradient(145deg, #0f3460, #1a1a2e)' },
     ],
-    'rAnDoM sTuFf': [
-        { label: 'mY sEtUp iS fIrE', sub: '+300 gAmEr pOiNts', bg: 'linear-gradient(145deg, #e94560, #533483)' },
-        { label: 'tOuChEd gRaSs', sub: '+1 tOuCh gRaSs pOiNts', bg: 'linear-gradient(145deg, #16213e, #533483)' },
-        { label: 'nO sLeEp gAnG', sub: '+999 iNsOmNiA', bg: 'linear-gradient(145deg, #1a1a2e, #e94560)' },
+    'Random stuff': [
+        { label: 'My setup is fire', sub: '+300 gamer points', bg: 'linear-gradient(145deg, #e94560, #533483)' },
+        { label: 'Touched grass', sub: '+1 touch-grass point', bg: 'linear-gradient(145deg, #16213e, #533483)' },
+        { label: 'No sleep gang', sub: '+999 insomnia', bg: 'linear-gradient(145deg, #1a1a2e, #e94560)' },
     ],
 }
 
@@ -111,10 +111,15 @@ export default function Gallery() {
     return (
         <section className="panel gallery-panel" id="gallery">
             <div className="section-wrapper gallery-wrapper">
-                <div className="gallery-tabs">
+                <div className="section-header">
+                    <span className="section-number">05</span>
+                    <h2 className="section-title">Beyond <span className="accent-text">code</span></h2>
+                </div>
+                <div className="gallery-tabs" role="group" aria-label="Filter photos">
                     {Object.keys(categories).map(tab => (
-                        <button key={tab}
+                        <button key={tab} type="button"
                             className={`gallery-tab ${activeTab === tab ? 'active' : ''}`}
+                            aria-pressed={activeTab === tab}
                             onClick={() => setActiveTab(tab)}>{tab}</button>
                     ))}
                 </div>
@@ -135,9 +140,9 @@ export default function Gallery() {
                     </div>
                 </div>
             </div>
-            <div className="section-corner-text">
-                <span className="corner-left">kNoW mE</span>
-                <span className="corner-right">mOrE?</span>
+            <div className="section-corner-text" aria-hidden="true">
+                <span className="corner-left">Know me</span>
+                <span className="corner-right">more?</span>
             </div>
         </section>
     )

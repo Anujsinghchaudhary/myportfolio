@@ -9,7 +9,7 @@ export const FRAME_COUNT = 21
 export const framePath = (i) => `${import.meta.env.BASE_URL}frames/ezgif-frame-${String(i).padStart(3, '0')}.jpg`
 
 // Fonts the preloader title and the hero intro render with.
-const CRITICAL_FONTS = ['800 112px Syne', '28px "Londrina Sketch"']
+const CRITICAL_FONTS = ['800 112px Syne', '600 16px "Space Grotesk"']
 const FONT_TIMEOUT_MS = 3000
 const TOTAL_TIMEOUT_MS = 10000 // never trap the visitor behind a stalled request
 
